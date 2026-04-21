@@ -14,24 +14,24 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 
 class Eventdetail : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_event_detail)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val title = intent.getStringExtra("title")
-
         val date = intent.getStringExtra("date")
-
         val location = intent.getStringExtra("location")
-
         val image = intent.getIntExtra("image", 0)
 
         val tv = findViewById<TextView>(R.id.title)
@@ -44,15 +44,14 @@ class Eventdetail : AppCompatActivity() {
         tvdate.text = date
         tvlocation.text = location
         img.setImageResource(image)
+
+        // ✅ FIXED PART (OPEN PAYMENT SCREEN)
         book.setOnClickListener {
-            val intent = Intent(this, Booking::class.java)
-            intent.putExtra("title", title)
-            intent.putExtra("image", image)
-            intent.putExtra("date", date)
-            intent.putExtra("location", location)
+            val intent = Intent(this, PaymentActivity::class.java)
             startActivity(intent)
         }
     }
+
     // ✅ Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
